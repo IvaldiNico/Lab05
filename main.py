@@ -36,12 +36,12 @@ def main(page: ft.Page):
     lista_strumenti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
-    txt_nuovo_strumento = ft.Text("Aggiungi nuovo strumento", size=20)
+    txt_nuovo_strumento = ft.Text("Aggiungi Nuovo Strumento", size=20)
+
     tipo = ft.TextField(label="Tipo")
     marca = ft.TextField(label="Marca")
     anno = ft.TextField(label="Anno")
-
-    valore = ft.TextField(value="0", label="Valore (€)", text_align=ft.TextAlign.RIGHT)
+    valore = ft.TextField(label="Valore (€)", text_align=ft.TextAlign.RIGHT)
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
