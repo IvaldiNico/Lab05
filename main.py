@@ -36,7 +36,12 @@ def main(page: ft.Page):
     lista_strumenti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
-    # TODO
+    txt_nuovo_strumento = ft.Text("Aggiungi nuovo strumento", size=20)
+    tipo = ft.TextField(label="Tipo")
+    marca = ft.TextField(label="Marca")
+    anno = ft.TextField(label="Anno")
+
+    valore = ft.TextField(value="0", label="Valore (€)", text_align=ft.TextAlign.RIGHT)
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -55,14 +60,59 @@ def main(page: ft.Page):
         txt_responsabile.value = f"Responsabile: {deposito.get_responsabile()}"
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
-    # TODO
+    def aggiungi_strumento(e):
+        tipo_str = tipo.value.strip()
+        marca_str = marca.value.strip()
+        anno_str = anno.value.strip()
+        valore_str = valore.value.strip()
+
+        if not tipo_str or not marca_str or not anno_str or not valore_str:
+            alert.show_alert("Errore: tutti i campi devono essere compilati")
+            return
+
+        try:
+            anno_num = int(anno_str)
+            valor_num = float(valore_str)
+
+        except ValueError:
+            alert.show_alert("Errore: anno o valore non valido")
+            return
+        deposito.aggiungi_strumento(tipo_str, marca_str, anno_num, valor_num)
+
+        tipo.value = ""
+        marca.value = ""
+        anno.value = ""
+        valore.value = "0"
+
+        aggiorna_lista_strumenti()
+
+    def piu(e):
+        try:
+            val_attuale = int(valore.value)
+            valore.value = str(val_attuale + 1)
+            page.update()
+        except ValueError:
+            alert.show_alert("Errore: inserisci un numero valido")
+
+    def meno(e):
+        try:
+            val_attuale = int(valore.value)
+            if val_attuale >= 1:  # Modificato: per evitare che scenda a -1 o oltre
+                valore.value = str(val_attuale - 1)
+                page.update()
+            else:
+                alert.show_alert("Errore: il prezzo non può scendere sotto lo zero")
+        except ValueError:
+            alert.show_alert("Errore: inserisci un numero valido")
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
     pulsante_conferma_responsabile = ft.Button("Conferma", on_click=conferma_responsabile)
 
     # Pulsanti per la gestione dell'inserimento di un nuovo strumento
-    # TODO
+    btn_aggiungi = ft.CupertinoButton("Aggiungi strumento", on_click=aggiungi_strumento)
+    btn_meno = ft.CupertinoButton("-", color="red", on_click=meno)
+    btn_piu = ft.CupertinoButton("+", color="green", on_click=piu)
 
     # --- LAYOUT ---
     page.add(
@@ -80,7 +130,12 @@ def main(page: ft.Page):
                alignment=ft.MainAxisAlignment.CENTER),
 
         # Sezione 3
-        # TODO
+        ft.Divider(),
+        txt_nuovo_strumento,
+        ft.Row(spacing=20,
+               controls=[tipo, marca, anno, btn_meno, valore, btn_piu],
+               alignment=ft.MainAxisAlignment.CENTER),
+        btn_aggiungi,
 
         # Sezione 4
         ft.Divider(),
