@@ -67,17 +67,17 @@ def main(page: ft.Page):
         valore_str = valore.value.strip()
 
         if not tipo_str or not marca_str or not anno_str or not valore_str:
-            alert.show_alert("Errore: tutti i campi devono essere compilati")
+            alert.show_alert("Errore: tutti i campi devono essere compilati correttamente")
             return
 
         try:
             anno_num = int(anno_str)
-            valor_num = float(valore_str)
+            valore_num = float(valore_str)
 
         except ValueError:
             alert.show_alert("Errore: anno o valore non valido")
             return
-        deposito.aggiungi_strumento(tipo_str, marca_str, anno_num, valor_num)
+        deposito.aggiungi_strumento(tipo_str, marca_str, anno_num, valore_num)
 
         tipo.value = ""
         marca.value = ""
@@ -88,7 +88,7 @@ def main(page: ft.Page):
 
     def piu(e):
         try:
-            val_attuale = int(valore.value)
+            val_attuale = float(valore.value)
             valore.value = str(val_attuale + 1)
             page.update()
         except ValueError:
@@ -96,8 +96,8 @@ def main(page: ft.Page):
 
     def meno(e):
         try:
-            val_attuale = int(valore.value)
-            if val_attuale >= 1:  # Modificato: per evitare che scenda a -1 o oltre
+            val_attuale = float(valore.value)
+            if val_attuale >= 1:  #modificato per evitare che scenda sotto zero
                 valore.value = str(val_attuale - 1)
                 page.update()
             else:
