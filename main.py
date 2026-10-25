@@ -111,8 +111,8 @@ def main(page: ft.Page):
 
     # Pulsanti per la gestione dell'inserimento di un nuovo strumento
     btn_aggiungi = ft.CupertinoButton("Aggiungi strumento", on_click=aggiungi_strumento)
-    btn_meno = ft.CupertinoButton("-", color="red", on_click=meno)
-    btn_piu = ft.CupertinoButton("+", color="green", on_click=piu)
+    btn_meno = ft.IconButton(ft.CupertinoIcons.MINUS, icon_color="red", on_click=meno)
+    btn_piu = ft.IconButton(ft.CupertinoIcons.ADD, icon_color="green", on_click=piu)
 
     # --- LAYOUT ---
     page.add(
