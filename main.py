@@ -77,6 +77,11 @@ def main(page: ft.Page):
         except ValueError:
             alert.show_alert("Errore: anno o valore non valido")
             return
+
+        if valore_num < 0:
+            alert.show_alert("Errore: valore invalido")
+            return
+
         deposito.aggiungi_strumento(tipo_str, marca_str, anno_num, valore_num)
 
         tipo.value = ""
